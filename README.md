@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ⚡ Premium Personal Task Tracker
 
-## Getting Started
+Welcome to your beautiful, premium, full-stack **Personal Task Tracker**. This application is structured with a modular FastAPI backend and an interactive, modern, dark-mode-first vanilla HTML/CSS/JS frontend.
 
-First, run the development server:
+It satisfies all **Day 2 tasks** of your evaluation week by establishing a clean project structure, implementing fully functional CRUD endpoints in FastAPI, and scaffolding a visually stunning user interface with micro-animations.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🎨 Features
+
+- **Modern Dashboard UI:** A slate-indigo dark mode theme featuring modern glassmorphism (`backdrop-filter`) and smooth transitions.
+- **Dynamic Stats Board:** Instant, automatic counts for **Total**, **Pending**, and **Completed** tasks.
+- **Rich Task Actions:**
+  - Create tasks with custom priority tiers (**High**, **Medium**, **Low**).
+  - Search tasks by title via a live search filter.
+  - Filter tasks using interactive category/completion tabs.
+  - Toggle completion state instantly with clean animations.
+  - Delete tasks via hover-activated quick action buttons.
+- **Robust REST API:** Designed with FastAPI, featuring automated interactive Swagger documentation, request schema validations, and standard CORS middleware support.
+
+---
+
+## 📁 Repository Structure
+
+```
+├── backend/
+│   └── main.py          # FastAPI application, routing, models, and in-memory DB
+├── frontend/
+│   ├── index.html       # HTML5 structure with semantic layout and SEO setup
+│   ├── style.css        # Premium custom styles (CSS Variables, Grid/Flexbox)
+│   └── app.js           # Async state management, API calls, dynamic DOM rendering
+├── .gitignore           # Smart ignores for Python, environments, OS, and Node
+└── README.md            # You are here!
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🚀 Quick Start Guide
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Run the Backend (FastAPI)
 
-## Learn More
+Ensure you have Python 3.8+ installed.
 
-To learn more about Next.js, take a look at the following resources:
+1. Navigate to the `backend` directory:
+   ```bash
+   cd backend
+   ```
+2. Create and activate a virtual environment (optional but recommended):
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+3. Install FastAPI and Uvicorn:
+   ```bash
+   pip install fastapi uvicorn
+   ```
+4. Start the server:
+   ```bash
+   uvicorn main:app --reload
+   ```
+   The backend will be running at **`http://127.0.0.1:8000`**.
+   You can view the interactive API documentation at **`http://127.0.0.1:8000/docs`**.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. Run the Frontend
 
-## Deploy on Vercel
+The frontend is built using pure, vanilla web standards, so it has no dependencies or compilation steps.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Option A (Fastest):** Simply double-click `frontend/index.html` to open it directly in any browser.
+- **Option B (Recommended):** Serve it with a local HTTP server to avoid CORS issues:
+  ```bash
+  cd frontend
+  python3 -m http.server 3000
+  ```
+  Then visit **`http://localhost:3000`** in your browser.
