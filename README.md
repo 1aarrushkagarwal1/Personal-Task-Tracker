@@ -1,106 +1,105 @@
-# ⚡ Premium Personal Task Tracker
+# 🌸 Taskflow // Your Cozy Personal Task Space
 
-Welcome to your beautiful, premium, full-stack **Personal Task Tracker**. This application is structured with a modular FastAPI backend and an interactive, modern, dark-mode-first vanilla HTML/CSS/JS frontend.
-
-It satisfies all **Day 2 tasks** of your evaluation week by establishing a clean project structure, implementing fully functional CRUD endpoints in FastAPI, and scaffolding a visually stunning user interface with micro-animations.
+Welcome to **Taskflow**, a beautiful, premium, full-stack personal task tracker designed with comfort, mindfulness, and visual excellence. Featuring a soothing cream-linen pastel design, dynamic statistic counters, live search, priority filtering, and a robust SQLAlchemy-backed FastAPI backend, Taskflow helps you manage your day one calm step at a time.
 
 ---
 
-## 🎨 Features
+## 🔗 Live Deployments (Railway Only)
 
-- **Modern Dashboard UI:** A slate-indigo dark mode theme featuring modern glassmorphism (`backdrop-filter`) and smooth transitions.
-- **Dynamic Stats Board:** Instant, automatic counts for **Total**, **Pending**, and **Completed** tasks.
-- **Rich Task Actions:**
-  - Create tasks with custom priority tiers (**High**, **Medium**, **Low**).
-  - Search tasks by title via a live search filter.
-  - Filter tasks using interactive category/completion tabs.
-  - Toggle completion state instantly with clean animations.
-  - Delete tasks via hover-activated quick action buttons.
-- **Robust REST API:** Designed with FastAPI, featuring automated interactive Swagger documentation, request schema validations, and standard CORS middleware support.
+Taskflow is fully hosted and operational on **Railway** as a multi-service monorepo:
+
+*   **🎨 Live Frontend Website:** [https://personal-task-tracker-production.up.railway.app](https://personal-task-tracker-production.up.railway.app)
+*   **📡 Live Backend API:** [https://precious-education-production-25c7.up.railway.app](https://precious-education-production-25c7.up.railway.app)
+*   **📖 Interactive Swagger API Docs:** [https://precious-education-production-25c7.up.railway.app/docs](https://precious-education-production-25c7.up.railway.app/docs)
+
+---
+
+## 🎨 Soothing & Premium Features
+
+### Soothing Pastel Frontend
+*   **Comforting Aesthetics:** Soft cream-linen card layouts, glowing background ambient blur spots, and organic rounded corners utilizing the **Quicksand** Google Font family.
+*   **Aesthetic Illustration Banner:** Custom hand-drawn cozy study room banner (`cozy_workspace.png`) to inspire mindful productivity.
+*   **Dynamic Stats board:** Stat counters for *Total Notes*, *To Do*, and *Finished* tasks with rolling counter animations.
+*   **Smooth UX:** Elegant custom-designed checkboxes, hover-revealed delete action buttons, custom notifications (toasts), and skeleton loaders during API latency.
+*   **Live Filters & Search:** Live, case-insensitive keyword search and completion/priority filtering tabs.
+
+### Robust FastAPI Backend
+*   **SQLAlchemy Persistence:** Leverages SQLite database (`tasks.db`) with an auto-seeded database schema.
+*   **Pydantic Validations:** Implements Pydantic v2 schemas (`TaskCreate`, `TaskUpdate`, and `TaskResponse`) guaranteeing robust data sanitization.
+*   **Optimal CORS Policy:** Fully configured for cross-origin browser requests with custom allowed protocols.
+*   **Flexible DB Pathing:** Automatically detects its running environment—storing database files in a writable `/tmp/tasks.db` directory on Railway, while keeping local `tasks.db` inside the project folder for local development.
 
 ---
 
 ## 📁 Repository Structure
 
-```
+```text
 ├── backend/
-│   └── main.py          # FastAPI application, routing, models, and in-memory DB
+│   ├── database.py       # SQLAlchemy engine initialization and session management
+│   ├── main.py           # FastAPI server routing, CORS setup, and CRUD handlers
+│   ├── models.py         # SQLAlchemy data models representing task schemas
+│   ├── schemas.py        # Pydantic validation schemas
+│   ├── Procfile          # Process execution command for Railway
+│   └── requirements.txt  # Python package dependencies
 ├── frontend/
-│   ├── index.html       # HTML5 structure with semantic layout and SEO setup
-│   ├── style.css        # Premium custom styles (CSS Variables, Grid/Flexbox)
-│   └── app.js           # Async state management, API calls, dynamic DOM rendering
-├── .gitignore           # Smart ignores for Python, environments, OS, and Node
-└── README.md            # You are here!
+│   ├── index.html        # Clean, semantic layout with cozy pastel structures
+│   ├── style.css         # 900+ lines of custom glassmorphic styling
+│   ├── app.js            # Core async application logic and API communication
+│   ├── cozy_workspace.png # Cozy, high-resolution header illustration
+│   ├── Dockerfile        # Node Alpine container script for stable Railway hosting
+│   └── server.js         # Custom Node static server with dynamic PORT mapping
+├── vercel.json           # Optional Vercel redirect routing configuration
+└── README.md             # You are here!
 ```
 
 ---
 
-## 🚀 Quick Start Guide
+## 🚀 How to Run Locally
 
-### 1. Run the Backend (FastAPI)
+### 1. Start the Backend API (FastAPI)
+Ensure you have **Python 3.8+** installed.
 
-Ensure you have Python 3.8+ installed.
-
-1. Navigate to the `backend` directory:
-   ```bash
-   cd backend
-   ```
-2. Create and activate a virtual environment (optional but recommended):
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
-3. Install FastAPI and Uvicorn:
-   ```bash
-   pip install fastapi uvicorn
-   ```
-4. Start the server:
-   ```bash
-   uvicorn main:app --reload
-   ```
-   The backend will be running at **`http://127.0.0.1:8000`**.
-   You can view the interactive API documentation at **`http://127.0.0.1:8000/docs`**.
-
----
-
-### 2. Run the Frontend
-
-The frontend is built using pure, vanilla web standards, so it has no dependencies or compilation steps.
-
-- **Option A (Fastest):** Simply double-click `frontend/index.html` to open it directly in any browser.
-- **Option B (Recommended):** Serve it with a local HTTP server to avoid CORS issues:
-  ```bash
-  cd frontend
-  python3 -m http.server 3000
-  ```
-  Then visit **`http://localhost:3000`** in your browser.
+1.  Navigate into the `backend/` directory:
+    ```bash
+    cd backend
+    ```
+2.  Create and activate a Python virtual environment:
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
+3.  Install the required dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+4.  Start the FastAPI local development server:
+    ```bash
+    uvicorn main:app --reload
+    ```
+    *   The API server will boot up at **`http://127.0.0.1:8000`**.
+    *   Access the live interactive API documentation (Swagger) at **`http://127.0.0.1:8000/docs`**.
 
 ---
 
-## ☁️ Cloud Deployment Guide
+### 2. Start the Frontend Website
+The frontend uses pure, vanilla web standards, so it doesn't need heavy npm compilations.
 
-You can deploy this full-stack application completely for free using modern cloud hosting:
+*   **Option A (Python Server - Recommended):**
+    ```bash
+    cd frontend
+    python3 -m http.server 3000
+    ```
+    Now, open your web browser and visit **`http://localhost:3000`**.
+*   **Option B (Directly opening HTML):**
+    Simply navigate to your `frontend/` folder on your machine and double-click `index.html` to open it in your browser of choice!
 
-### 1. Backend Deployment (Render or Railway)
-- **Render Setup:**
-  1. Create a new **Web Service** linked to your GitHub repository.
-  2. Set **Root Directory** to `backend`.
-  3. Set **Start Command** to `uvicorn main:app --host 0.0.0.0 --port $PORT`.
-  4. Ensure your python build environment has dependencies installed automatically via the provided `requirements.txt`.
-- **Railway Setup:**
-  1. Add a new service linked to your repository.
-  2. Railway will automatically read `backend/Procfile` and launch your API service using the correct port mapping.
+---
 
-### 2. Frontend Deployment (Vercel)
-- Create a new project in **Vercel** connected to your repository.
-- Vercel will automatically read `vercel.json` in the root folder, rewriting all static URL routings to serve pages from the `frontend/` directory with zero manual configuration.
+## ☁️ Zero-Config Railway Deployment Details
 
-### 3. Wiring Hosted Environments
-To connect your hosted frontend to your hosted API:
-1. Open the hosted Vercel application in your web browser.
-2. Open the browser's developer console (F12).
-3. Type the following command (substituting with your actual backend URL) and refresh:
-   ```javascript
-   localStorage.setItem("API_BASE_URL", "https://your-backend-api.onrender.com");
-   ```
+Both the frontend and backend are configured to build automatically on Railway with zero manual command configuration required:
 
+*   **Backend Service:** Railway automatically reads `backend/Procfile` to run Uvicorn. The SQLite database is automatically written to `/tmp/tasks.db` inside the container to avoid read-only filesystem errors.
+*   **Frontend Service:** Built on top of a standard lightweight **Node Alpine** Docker image. It skips Railway's unstable default builders and uses the custom `server.js` static wrapper to dynamically bind to Railway's assigned port.
+
+Take a deep breath. Enjoy organizing your thoughts! 🌸🍵
