@@ -269,7 +269,14 @@ async function handleFormSubmit() {
             })
         });
         
-        if (!response.ok) throw new Error("Failed to create task");
+        if (!response.ok) {
+            if (response.status === 422) {
+                const errData = await response.json();
+                const errMsg = errData.detail?.[0]?.msg || "Invalid input details";
+                throw new Error(errMsg);
+            }
+            throw new Error("Failed to add task");
+        }
         
         const newTask = await response.json();
         showToast(`Added "${newTask.title}" to your flow! 🌸`, "success");
@@ -279,7 +286,7 @@ async function handleFormSubmit() {
         await fetchTasks(true);
     } catch (error) {
         console.error("Error creating task:", error);
-        showToast("Error adding task. Let's check the server connection. ☁️", "error");
+        showToast(error.message || "Error adding task. Let's check the server connection. ☁️", "error");
     } finally {
         setFormLoadingState(false);
     }
@@ -312,7 +319,11 @@ async function handleToggleStatus(taskId, currentStatus) {
             })
         });
         
-        if (!response.ok) throw new Error("Failed to update status");
+        if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            const errMsg = errData.detail || "Failed to update status";
+            throw new Error(errMsg);
+        }
         
         const updatedTask = await response.json();
         const stateWord = updatedTask.completed ? "finished" : "active";
@@ -321,7 +332,7 @@ async function handleToggleStatus(taskId, currentStatus) {
         await fetchTasks(true);
     } catch (error) {
         console.error("Error updating status:", error);
-        showToast("Couldn't update status. Let's try again. ☁️", "error");
+        showToast(error.message || "Couldn't update status. Let's try again. ☁️", "error");
         // Revert UI checkbox visual
         fetchTasks(true);
     }
@@ -344,13 +355,17 @@ async function handleDeleteTask(taskId) {
                 method: "DELETE"
             });
             
-            if (!response.ok) throw new Error("Failed to delete task");
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                const errMsg = errData.detail || "Failed to delete task";
+                throw new Error(errMsg);
+            }
             
             showToast("Task removed from flow. 🍃", "info");
             await fetchTasks(true);
         } catch (error) {
             console.error("Error deleting task:", error);
-            showToast("Couldn't remove task. Let's try again. ☁️", "error");
+            showToast(error.message || "Couldn't remove task. Let's try again. ☁️", "error");
             await fetchTasks(true);
         }
     }, 250);
