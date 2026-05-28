@@ -1,0 +1,8 @@
+{
+  "name": "taskflow-frontend",
+  "version": "1.0.0",
+  "description": "Taskflow frontend static server for Railway deployment",
+  "scripts": {
+    "start": "npx -y serve -l $PORT ."
+  }
+}
