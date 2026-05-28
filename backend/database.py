@@ -2,8 +2,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Database URL for SQLite. It creates a 'tasks.db' file in the backend directory.
-SQLALCHEMY_DATABASE_URL = "sqlite:///./tasks.db"
+import os
+
+# Database URL for SQLite. It checks for a 'DATABASE_URL' environment variable
+# (useful for specifying a persistent volume path in production like sqlite:////data/tasks.db)
+# and falls back to a local 'tasks.db' file in the backend directory.
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./tasks.db")
 
 # connect_args={"check_same_thread": False} is required only for SQLite.
 # It allows multiple threads to interact with the database session simultaneously.
