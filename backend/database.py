@@ -4,10 +4,15 @@ from sqlalchemy.orm import sessionmaker
 
 import os
 
-# Database URL for SQLite. It checks for a 'DATABASE_URL' environment variable
-# (useful for specifying a persistent volume path in production like sqlite:////data/tasks.db)
-# and falls back to a local 'tasks.db' file in the backend directory.
-SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./tasks.db")
+# Database URL for SQLite.
+# - If DATABASE_URL env var is provided (e.g. for persistent volumes), use it.
+# - If running on Railway (where root filesystem is read-only), default to a writable /tmp/tasks.db path.
+# - Otherwise (local development), default to a local tasks.db file in the project.
+default_db_url = "sqlite:///./tasks.db"
+if "PORT" in os.environ or "RAILWAY_ENVIRONMENT" in os.environ:
+    default_db_url = "sqlite:////tmp/tasks.db"
+
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", default_db_url)
 
 # connect_args={"check_same_thread": False} is required only for SQLite.
 # It allows multiple threads to interact with the database session simultaneously.
