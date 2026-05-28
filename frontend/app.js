@@ -38,10 +38,10 @@ function showToast(message, type = "info") {
     const toast = document.createElement("div");
     toast.className = `toast ${type}`;
     
-    // Emoji icons depending on status
-    let icon = "🔔";
-    if (type === "success") icon = "✨";
-    if (type === "error") icon = "⚠️";
+    // Cozy emoji icons depending on status
+    let icon = "🍵";
+    if (type === "success") icon = "🌸";
+    if (type === "error") icon = "☁️";
     
     toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
     
@@ -92,11 +92,11 @@ async function fetchTasks(silent = false) {
         applyFiltersAndRender();
     } catch (error) {
         console.error("Error fetching tasks:", error);
-        showToast("Unable to reach backend. Make sure FastAPI is running!", "error");
+        showToast("Unable to reach backend. Let's make sure the FastAPI server is running! 🔌", "error");
         taskList.innerHTML = "";
         emptyState.innerHTML = `
             <div class="empty-icon">🔌</div>
-            <h3>Backend Unreachable</h3>
+            <h3>Server is resting</h3>
             <p>Please launch your FastAPI server by running <code>uvicorn main:app --reload</code> inside the <code>backend/</code> folder.</p>
         `;
         emptyState.classList.remove("hidden");
@@ -272,14 +272,14 @@ async function handleFormSubmit() {
         if (!response.ok) throw new Error("Failed to create task");
         
         const newTask = await response.json();
-        showToast(`Task "${newTask.title}" added successfully!`, "success");
+        showToast(`Added "${newTask.title}" to your flow! 🌸`, "success");
         
         // Reset and reload
         taskForm.reset();
         await fetchTasks(true);
     } catch (error) {
         console.error("Error creating task:", error);
-        showToast("Error creating task. Check console or server connection.", "error");
+        showToast("Error adding task. Let's check the server connection. ☁️", "error");
     } finally {
         setFormLoadingState(false);
     }
@@ -315,13 +315,13 @@ async function handleToggleStatus(taskId, currentStatus) {
         if (!response.ok) throw new Error("Failed to update status");
         
         const updatedTask = await response.json();
-        const stateWord = updatedTask.completed ? "Completed" : "Re-activated";
-        showToast(`Task marked as ${stateWord}!`, updatedTask.completed ? "success" : "info");
+        const stateWord = updatedTask.completed ? "finished" : "active";
+        showToast(`Task is now ${stateWord}! ✨`, updatedTask.completed ? "success" : "info");
         
         await fetchTasks(true);
     } catch (error) {
         console.error("Error updating status:", error);
-        showToast("Error updating task status.", "error");
+        showToast("Couldn't update status. Let's try again. ☁️", "error");
         // Revert UI checkbox visual
         fetchTasks(true);
     }
@@ -346,11 +346,11 @@ async function handleDeleteTask(taskId) {
             
             if (!response.ok) throw new Error("Failed to delete task");
             
-            showToast("Task deleted.", "info");
+            showToast("Task removed from flow. 🍃", "info");
             await fetchTasks(true);
         } catch (error) {
             console.error("Error deleting task:", error);
-            showToast("Error deleting task.", "error");
+            showToast("Couldn't remove task. Let's try again. ☁️", "error");
             await fetchTasks(true);
         }
     }, 250);
