@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "7af9d3a3-ba34-4d56-9f2e-ccee25819d1d",
+		"name": "Taskflow API Collection",
+		"description": "API collection for testing Personal Task Tracker CRUD endpoints with SQLite/SQLAlchemy persistent storage. Fully compatible with Postman and Bruno.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Tasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/tasks?completed=false&search=",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"tasks"
+					],
+					"query": [
+						{
+							"key": "completed",
+							"value": "false",
+							"description": "Optional completion state filter (true/false)"
+						},
+						{
+							"key": "search",
+							"value": "",
+							"description": "Optional keyword search filter"
+						}
+					]
+				},
+				"description": "Retrieve all tasks from the SQLite database. Supports optional search and completion filtering."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Task By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/tasks/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"tasks",
+						"1"
+					]
+				},
+				"description": "Retrieve details of a specific task by its integer ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Explore Taskflow API\",\n    \"description\": \"Imported and tested the API collection in Bruno or Postman! ☕\",\n    \"priority\": \"High\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/tasks",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"tasks"
+					]
+				},
+				"description": "Create a new task in the database. Validates title (min 1, max 100), description (max 500), and priority (High/Medium/Low)."
+			},
+			"response": []
+		},
+		{
+			"name": "Update Task Details",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Explore Taskflow API (Refined)\",\n    \"completed\": true\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/tasks/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"tasks",
+						"1"
+					]
+				},
+				"description": "Dynamically update details or completion state of an existing task."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Task",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/tasks/4",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"tasks",
+						"4"
+					]
+				},
+				"description": "Permanently delete a task from the database."
+			},
+			"response": []
+		}
+	]
+}
