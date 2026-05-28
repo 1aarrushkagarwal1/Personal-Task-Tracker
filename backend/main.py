@@ -50,12 +50,23 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # CRUD Endpoints
+
+@app.get("/", status_code=status.HTTP_200_OK)
+def root():
+    """
+    Root endpoint offering a welcome message and API health status.
+    """
+    return {
+        "status": "healthy",
+        "message": "Welcome to the Taskflow FastAPI backend!",
+        "documentation": "/docs"
+    }
 
 @app.get("/tasks", response_model=List[schemas.TaskResponse], status_code=status.HTTP_200_OK)
 def get_tasks(

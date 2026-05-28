@@ -4,7 +4,7 @@
   "description": "Taskflow frontend static server for Railway deployment",
   "scripts": {
     "build": "echo 'No build step required'",
-    "start": "node server.js",
-    "preview": "node server.js"
+    "start": "node server.js || node frontend/server.js",
+    "preview": "node server.js || node frontend/server.js"
   }
 }
