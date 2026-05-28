@@ -2,12 +2,9 @@
   "name": "taskflow-frontend",
   "version": "1.0.0",
   "description": "Taskflow frontend static server for Railway deployment",
-  "dependencies": {
-    "serve": "^14.2.4"
-  },
   "scripts": {
     "build": "echo 'No build step required'",
-    "start": "serve -l $PORT .",
-    "preview": "serve -l $PORT ."
+    "start": "node server.js",
+    "preview": "node server.js"
   }
 }
