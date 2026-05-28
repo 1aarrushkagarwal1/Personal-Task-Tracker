@@ -74,3 +74,33 @@ The frontend is built using pure, vanilla web standards, so it has no dependenci
   python3 -m http.server 3000
   ```
   Then visit **`http://localhost:3000`** in your browser.
+
+---
+
+## ☁️ Cloud Deployment Guide
+
+You can deploy this full-stack application completely for free using modern cloud hosting:
+
+### 1. Backend Deployment (Render or Railway)
+- **Render Setup:**
+  1. Create a new **Web Service** linked to your GitHub repository.
+  2. Set **Root Directory** to `backend`.
+  3. Set **Start Command** to `uvicorn main:app --host 0.0.0.0 --port $PORT`.
+  4. Ensure your python build environment has dependencies installed automatically via the provided `requirements.txt`.
+- **Railway Setup:**
+  1. Add a new service linked to your repository.
+  2. Railway will automatically read `backend/Procfile` and launch your API service using the correct port mapping.
+
+### 2. Frontend Deployment (Vercel)
+- Create a new project in **Vercel** connected to your repository.
+- Vercel will automatically read `vercel.json` in the root folder, rewriting all static URL routings to serve pages from the `frontend/` directory with zero manual configuration.
+
+### 3. Wiring Hosted Environments
+To connect your hosted frontend to your hosted API:
+1. Open the hosted Vercel application in your web browser.
+2. Open the browser's developer console (F12).
+3. Type the following command (substituting with your actual backend URL) and refresh:
+   ```javascript
+   localStorage.setItem("API_BASE_URL", "https://your-backend-api.onrender.com");
+   ```
+
