@@ -90,8 +90,24 @@
                     <button type="submit" class="submit-btn" id="submitBtn">
                         <span class="btn-text">Add Task</span>
                         <span class="btn-icon">🍃</span>
-                    </button>
                 </form>
+
+                <!-- API Connection settings panel -->
+                <div class="api-config-container">
+                    <div class="api-config-header" onclick="toggleApiSettings()">
+                        <span class="api-indicator" id="apiStatusIndicator">⚪</span>
+                        <span class="api-label">Backend: <span id="apiStatusText" style="font-weight: 700;">checking...</span></span>
+                        <span class="api-toggle-icon">⚙️</span>
+                    </div>
+                    <div id="apiConfigFields" class="api-config-fields hidden">
+                        <label for="customApiUrlInput">FastAPI URL</label>
+                        <div class="api-input-group">
+                            <input type="text" id="customApiUrlInput" placeholder="http://127.0.0.1:8000">
+                            <button type="button" onclick="saveCustomApiUrl()" class="save-api-btn">Apply</button>
+                        </div>
+                        <p class="api-help-text">Set your Railway backend URL (e.g., <code>https://your-api.up.railway.app</code>)</p>
+                    </div>
+                </div>
             </section>
 
             <!-- RIGHT PANEL: TASKS BOARD -->
