@@ -4,47 +4,11 @@
             Search/Filter, Toast notifications & Skeletons.
    ---------------------------------------------------- */
 
-let API_BASE = localStorage.getItem("API_BASE_URL") || (
+const API_BASE = localStorage.getItem("API_BASE_URL") || (
     window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
         ? "http://127.0.0.1:8000"
         : "https://personal-task-tracker-backend.onrender.com" // Default fallback production URL
 );
-
-// Toggle API Connection settings drawer
-function toggleApiSettings() {
-    const fields = document.getElementById("apiConfigFields");
-    fields.classList.toggle("hidden");
-}
-
-// Save Custom API URL from Settings Panel
-function saveCustomApiUrl() {
-    const input = document.getElementById("customApiUrlInput");
-    let url = input.value.trim();
-    if (!url) {
-        localStorage.removeItem("API_BASE_URL");
-    } else {
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "https://" + url;
-        }
-        if (url.endsWith("/")) url = url.slice(0, -1);
-        localStorage.setItem("API_BASE_URL", url);
-    }
-    window.location.reload();
-}
-
-// Save Custom API URL from Empty State
-function saveEmptyStateApiUrl() {
-    const input = document.getElementById("emptyStateApiInput");
-    let url = input.value.trim();
-    if (url) {
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            url = "https://" + url;
-        }
-        if (url.endsWith("/")) url = url.slice(0, -1);
-        localStorage.setItem("API_BASE_URL", url);
-    }
-    window.location.reload();
-}
 
 // App State
 let tasksState = [];
@@ -122,59 +86,22 @@ function renderSkeletons() {
 async function fetchTasks(silent = false) {
     if (!silent) renderSkeletons();
     
-    const indicator = document.getElementById("apiStatusIndicator");
-    const statusText = document.getElementById("apiStatusText");
-    const input = document.getElementById("customApiUrlInput");
-    
     try {
         const response = await fetch(`${API_BASE}/tasks`);
         if (!response.ok) {
             throw new Error(`Server returned code ${response.status}`);
         }
         tasksState = await response.json();
-        
-        // Update connection status UI to green success
-        if (indicator && statusText) {
-            indicator.innerText = "🟢";
-            statusText.innerText = "Connected";
-            statusText.style.color = "var(--accent-mint-text)";
-        }
-        if (input) input.value = API_BASE;
-        
         updateStats();
         applyFiltersAndRender();
     } catch (error) {
         console.error("Error fetching tasks:", error);
-        showToast("Unable to reach backend. Let's check the connection! 🔌", "error");
-        
-        // Update connection status UI to red failure
-        if (indicator && statusText) {
-            indicator.innerText = "🔴";
-            statusText.innerText = "Offline";
-            statusText.style.color = "var(--priority-high-text)";
-        }
-        if (input) input.value = API_BASE;
-        
+        showToast("Unable to reach backend. Let's make sure the FastAPI server is running! 🔌", "error");
         taskList.innerHTML = "";
-        
-        // Custom self-healing empty state based on local/production hosting
-        let connectionHelp = "";
-        if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-            connectionHelp = `<p>Please launch your FastAPI server locally by running <code>uvicorn main:app --reload</code> inside the <code>backend/</code> folder.</p>`;
-        } else {
-            connectionHelp = `
-                <p>Your frontend is hosted, but the backend API is unreachable at:<br><code style="word-break: break-all; color: var(--text-secondary); font-size: 0.8rem; background: rgba(180,170,160,0.1); padding: 2px 6px; border-radius: 4px; display: inline-block; margin: 5px 0 15px 0;">${API_BASE}</code></p>
-                <div style="display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 320px; margin: 10px auto;">
-                    <input type="text" id="emptyStateApiInput" placeholder="https://your-api.up.railway.app" value="${API_BASE}" style="width: 100%; text-align: center; border-radius: var(--radius-sm);">
-                    <button type="button" onclick="saveEmptyStateApiUrl()" class="submit-btn" style="padding: 10px; font-size: 0.85rem; border-radius: var(--radius-sm);">Connect to Backend</button>
-                </div>
-            `;
-        }
-        
         emptyState.innerHTML = `
             <div class="empty-icon">🔌</div>
-            <h3>Unable to reach backend</h3>
-            ${connectionHelp}
+            <h3>Server is resting</h3>
+            <p>Please launch your FastAPI server by running <code>uvicorn main:app --reload</code> inside the <code>backend/</code> folder.</p>
         `;
         emptyState.classList.remove("hidden");
     }
