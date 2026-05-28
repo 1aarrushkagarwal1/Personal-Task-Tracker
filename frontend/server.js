@@ -47,8 +47,19 @@ const server = http.createServer((req, res) => {
                     res.end(`Server Error: ${error.code}`);
                 }
             } else {
-                res.writeHead(200, { 'Content-Type': contentType });
-                res.end(content, 'utf-8');
+                // Dynamically inject API_BASE_URL environment variable into app.js at request time
+                if (filePath.endsWith('app.js') && process.env.API_BASE_URL) {
+                    let jsContent = content.toString('utf-8');
+                    jsContent = jsContent.replace(
+                        'https://personal-task-tracker-backend.onrender.com',
+                        process.env.API_BASE_URL
+                    );
+                    res.writeHead(200, { 'Content-Type': contentType });
+                    res.end(jsContent, 'utf-8');
+                } else {
+                    res.writeHead(200, { 'Content-Type': contentType });
+                    res.end(content, 'utf-8');
+                }
             }
         });
     });
