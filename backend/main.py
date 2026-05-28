@@ -98,11 +98,9 @@ def create_task(task_in: schemas.TaskCreate, db: Session = Depends(get_db)):
     """
     Create a new task in the database.
     """
-    # Validation check for priority
-    valid_priorities = ["High", "Medium", "Low"]
-    priority = task_in.priority
-    if priority not in valid_priorities:
-        priority = "Medium"
+    # Case-insensitive validation check for priority
+    priority_map = {"high": "High", "medium": "Medium", "low": "Low"}
+    priority = priority_map.get(task_in.priority.lower() if task_in.priority else "", "Medium")
 
     new_task = models.Task(
         title=task_in.title,
@@ -133,9 +131,8 @@ def update_task(task_id: int, task_in: schemas.TaskUpdate, db: Session = Depends
     if task_in.description is not None:
         db_task.description = task_in.description
     if task_in.priority is not None:
-        valid_priorities = ["High", "Medium", "Low"]
-        if task_in.priority in valid_priorities:
-            db_task.priority = task_in.priority
+        priority_map = {"high": "High", "medium": "Medium", "low": "Low"}
+        db_task.priority = priority_map.get(task_in.priority.lower(), db_task.priority)
     if task_in.completed is not None:
         db_task.completed = task_in.completed
 

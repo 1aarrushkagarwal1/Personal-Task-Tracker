@@ -177,7 +177,7 @@ function applyFiltersAndRender() {
     if (searchQuery) {
         filtered = filtered.filter(t => 
             t.title.toLowerCase().includes(searchQuery) || 
-            t.description.toLowerCase().includes(searchQuery)
+            (t.description || "").toLowerCase().includes(searchQuery)
         );
     }
     
