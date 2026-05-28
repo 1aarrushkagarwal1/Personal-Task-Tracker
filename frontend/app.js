@@ -4,11 +4,9 @@
             Search/Filter, Toast notifications & Skeletons.
    ---------------------------------------------------- */
 
-const API_BASE = localStorage.getItem("API_BASE_URL") || (
-    window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
-        ? "http://127.0.0.1:8000"
-        : "https://personal-task-tracker-backend.onrender.com" // Default fallback production URL
-);
+const API_BASE = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
+    ? "http://127.0.0.1:8000"
+    : "https://precious-education-production-25c7.up.railway.app";
 
 // App State
 let tasksState = [];
